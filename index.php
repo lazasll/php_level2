@@ -1,17 +1,72 @@
 <?php
-require 'Clothes.php';
-require 'Women.php';
+/**
+ * Created by PhpStorm.
+ * User: MaDMaxX
+ * Date: 21.08.17
+ * Time: 18:35
+ */
 
-$Clothes1 = new Clothes("Short ", ' 524');
-$Clothes1->about();
+/**
+* 1. Создать структуру классов ведения товарной номенклатуры.
+ *
+* Есть абстрактный товар.
+* Есть цифровой товар, штучный физический товар и товар на вес.
+* У каждого есть метод подсчёта финальной стоимости.
+* У цифрового товара стоимость постоянная и дешевле штучного товара в два раза,
+* у штучного товара обычная стоимость, у весового – в зависимости от продаваемого количества
+* в килограммах. У всех формируется в конечном итоге доход с продаж.
+* Что можно вынести в абстрактный класс, наследование?
+ */
 
-$Clothes2 = new Clothes("Jemper ", ' 1501');
-$Clothes2->about();
+abstract class Product {
 
-$Clothes3 = new Clothes("T-Short ", ' 700');
-$Clothes3->about();
+	protected static $cost = 30;
 
-//Придумать наследников класса из п.1. Чем они будут отличаться?
+	abstract public function getFinalCost();
+}
 
-$Clothes4 = new Women("Dress ", ' 1700', '54');
-$Clothes4->about();
+class DigitalProduct extends Product {
+
+	public function getFinalCost() {
+		return self::$cost/2;
+	}
+
+}
+
+class PeiceProduct extends Product {
+
+	public function getFinalCost() {
+		return self::$cost;
+	}
+
+}
+
+class WeightProduct extends Product {
+	private $qty;
+
+	public function __construct() {
+		$this->qty = 0;
+	}
+
+	public function setQty($qty) {
+		$this->qty = $qty;
+	}
+
+	public function getQty($qty) {
+		$this->qty = $qty;
+	}
+
+	public function getFinalCost() {
+		return $this->qty * self::$cost;
+	}
+}
+
+$prod1 = new DigitalProduct();
+$prod2 = new PeiceProduct();
+$prod3 = new WeightProduct();
+
+$prod3->setQty(3.3);
+
+echo "Стоимость цифрового товара {$prod1->getFinalCost()} <br/>";
+echo "Стоимость штучного товара {$prod2->getFinalCost()} <br/>";
+echo "Стоимость весового товара {$prod3->getFinalCost()} <br/>";
