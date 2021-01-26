@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Image gallery</title>
+    <style>
+        .preview {display: block; float: left; margin: 5px}
+        .preview img {max-width: 250px;}
+    </style>
+</head>
+<body>
+    {% if one %}
+        <b>{{ one.title }}</b><br/>
+        <img style="max-width: 650px"; src="/images/{{ one.filename }}">
+    {% else %}
+        {% for image in images %}
+            <a class="preview" href="?id={{image.id}}">
+                <img src="/images/{{image.filename}}"><br/>
+                {{ image.title}}
+            </a>
+        {% endfor %}  
+    {% endif %}      
+</body>
+</html>

@@ -1,17 +1,43 @@
 <?php
-require 'Clothes.php';
-require 'Women.php';
+//Создать галерею изображений, состоящую из двух страниц:
+// а) Просмотр всех фотографий (уменьшенных копий);
+// б) Просмотр конкретной фотографии (изображение оригинального размера)
+// в) Все страницы вывода на экран - это twig-шаблоны. Вся логика - на бэкенде
 
-$Clothes1 = new Clothes("Short ", ' 524');
-$Clothes1->about();
+require 'vendor/autoload.php';
 
-$Clothes2 = new Clothes("Jemper ", ' 1501');
-$Clothes2->about();
+$images = [
+    [
+        'id' => 1,
+        'title' => 'Img 1',
+        'filename' => '1.jpg',
+    ],
+    [
+        'id' => 2,
+        'title' => 'Img 2',
+        'filename' => '2.jpg',
+    ],
+    [
+        'id' => 3,
+        'title' => 'Img 3',
+        'filename' => '3.jpg',
+    ],
+    
+];
 
-$Clothes3 = new Clothes("T-Short ", ' 700');
-$Clothes3->about();
+$one = null;
+if (isset($_GET['id'])){
+    foreach ($images as $image){
+        if ($image['id'] === (int) $_GET['id']){
+            $one = $image;
+        }
+    }
+}
 
-//Придумать наследников класса из п.1. Чем они будут отличаться?
-
-$Clothes4 = new Women("Dress ", ' 1700', '54');
-$Clothes4->about();
+$loader = new \Twig\Loader\FilesystemLoader('templates');
+$twig = new \Twig\Environment($loader);
+ 
+echo $twig->render('index.twig',[
+    'images' => $images,
+    'one' => $one,
+]);
