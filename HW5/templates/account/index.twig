@@ -1,0 +1,11 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Account{% endblock %}
+
+{% block cntent %}
+    <b>{{ _user.login }}</b>
+    <br/><br/>
+    Recent pages:<br/>
+    {% for item in history %}
+        <li><a terget="blank" href="{{ item.url }}">{{ item.url }}</a></li>
+{% endblock %}
