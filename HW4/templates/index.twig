@@ -1,0 +1,31 @@
+<!doctype html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Goods</title>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="goods"></div>
+    <button id="more">load more</button>
+    <script>
+        var from = 0;
+        function loadMore() {
+            $.ajax({
+                url: '?from=' + from,
+                dataType: 'html',
+                succes: function (date) {
+                    $('#goods').append(date);
+                    from += {{ limit }};
+                }
+            });
+        }
+        loadMore();
+    </script>
+
+
+</body>
+</html>
